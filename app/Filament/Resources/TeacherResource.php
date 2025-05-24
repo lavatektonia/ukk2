@@ -27,6 +27,7 @@ class TeacherResource extends Resource
                 ->schema([
                     //nama
                     Forms\Components\TextInput::make('name')
+                        ->label('Name')
                         ->placeholder("Teacher's Name")
                         ->required(),
                     
