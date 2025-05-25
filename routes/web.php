@@ -6,6 +6,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dataPkl', App\Livewire\Pkl\Index::class)->name('pkl');
+Route::get('/addDataPkl', App\Livewire\Pkl\Create::class)->name('pklCreate');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
