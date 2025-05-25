@@ -31,13 +31,13 @@ class Create extends Component
 
             if (!$student) {
                 DB::rollBack();
-                session()->flash('error', 'Transaksi dibatalkan: Siswa tidak ditemukan.');
+                session()->flash('error', 'Transaksi dibatalkan: Student not found.');
                 return redirect('/dataPkl');
             }
 
             if ($student->pkl_report_status) {
                 DB::rollBack();
-                session()->flash('error', 'Transaksi dibatalkan: Siswa sudah memiliki data PKL.');
+                session()->flash('error', 'Students already have PKL data.');
                 return redirect('/dataPkl');
             }
 
@@ -52,11 +52,11 @@ class Create extends Component
 
             // Simpan transaksi secara permanen ke database
             DB::commit();
-            session()->flash('success', 'Data PKL berhasil ditambahkan.');
+            session()->flash('success', 'PKL data successfully added.');
             return redirect('/dataPkl');
         } catch (\Exception $e) {
             DB::rollBack();
-            session()->flash('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            session()->flash('error', 'There is an error:' . $e->getMessage());
             return;
         }
     }
