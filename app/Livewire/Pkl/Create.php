@@ -57,7 +57,7 @@ class Create extends Component
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('error', 'There is an error:' . $e->getMessage());
-            return;
+            return redirect('/dataPkl');
         }
     }
 
