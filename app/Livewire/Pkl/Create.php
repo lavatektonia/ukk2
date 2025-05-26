@@ -8,10 +8,23 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Industry;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Create extends Component
 {
     public $student_id, $teacher_id, $industry_id, $start, $end;
+
+    public $name_student;
+    public function mount()
+    {
+        $userEmail = Auth::user()->email;
+        $student = Student::where('email', $userEmail)->first();
+
+        if ($student) {
+            $this->student_id = $student->id;
+            $this->name_student = $student->name;
+        }
+    }
 
     // Fungsi yang akan dipanggil ketika user menekan tombol Tambahkan
     public function create()
@@ -65,13 +78,13 @@ class Create extends Component
     {
         // Ambil semua data siswa, guru, industri untuk dropdown
         $pkls = Pkl::all();
-        $students = Student::all();
+        //$students = Student::all(); karena ini akan menampilkan semua nama siswa di dropdown
         $teachers = Teacher::all();
         $industries = Industry::all();
 
         return view('livewire.pkl.create', [
         'pkls' => $pkls,
-        'students' => $students,
+        //'students' => $students, karena ini akan menampilkan semua nama siswa di dropdown
         'teachers' => $teachers,
         'industries' => $industries,
         ]);

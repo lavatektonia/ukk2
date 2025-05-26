@@ -7,6 +7,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/waiting-access', function () {
+    return view('waiting');
+})->name('waitingAccess');
+
 // Route dengan middleware autentikasi
 Route::middleware([
     'auth:sanctum',

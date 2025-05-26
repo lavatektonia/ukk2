@@ -19,8 +19,9 @@ class CheckUserRoles
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if (!Auth::check() || !$user->hasAnyRole(['super_admin'. 'student'])) {
-            abort(403, "You don't have access yet. Please contact admin :)");
+        if (!Auth::check() || !$user->hasAnyRole(['super_admin', 'student'])) {
+            //abort(403, "You don't have access yet. Please contact admin :)");
+            return redirect()->route('waitingAccess');
         }
 
         return $next($request);

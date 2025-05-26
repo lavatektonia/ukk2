@@ -7,13 +7,11 @@
             <!-- NAMA SISWA -->
             <div>
                 <label for="student_id" class="block mb-2 font-medium text-gray-700">Student Name</label>
-                <select wire:model="student_id" id="student_id"
-                    class="w-full p-3 border border-gray-300 bg-white text-gray-800 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-150 ease-in-out text-sm">
-                    <option value="">Select Student</option>
-                    @foreach($students as $student)
-                        <option value="{{ $student->id }}">{{ $student->name }}</option>
-                    @endforeach
-                </select>
+                <!-- <select wire:model="student_id" id="student_id"
+                    class="w-full p-3 border border-gray-300 bg-white text-gray-800 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-150 ease-in-out text-sm"> -->
+                <input type="text" value="{{ $name_student }}" disabled
+                    class="w-full p-3 border border-gray-300 bg-gray-100 text-gray-800 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-150 ease-in-out text-sm">
+                <input type="hidden" wire:model="student_id">
                 @error('student_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 @if(session()->has('error')) <p class="text-red-500 text-xs mt-1">{{ session('error') }}</p> @endif
             </div>

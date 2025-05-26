@@ -3,15 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\IndustryResource\Pages;
-use App\Filament\Resources\IndustryResource\RelationManagers;
 use App\Models\Industry;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
 
 class IndustryResource extends Resource
 {
@@ -21,141 +19,169 @@ class IndustryResource extends Resource
 
     public static function form(Form $form): Form
     {
-    return $form
-        ->schema([
-            Forms\Components\Grid::make(2) // form dibagi 2 kolom
-                ->schema([
-                    // foto
-                    Forms\Components\FileUpload::make('picture')
-                        ->label("Industry Logo")
-                        ->image()
-                        ->directory('industry')
-                        ->columnSpan(2)
-                        ->required(),
+        return $form
+            ->schema([
+                Forms\Components\Grid::make(2) // form dibagi 2 kolom
+                    ->schema([
+                        // foto industry/logo
+                        Forms\Components\FileUpload::make('picture')
+                            ->label("Industry Logo")
+                            ->image()
+                            ->directory('industry')
+                            ->columnSpan(2)
+                            ->required(),
 
-                    // nama
-                    Forms\Components\TextInput::make('name')
-                        ->label('Name')
-                        ->placeholder("Industry Name")
-                        ->required(),
+                        // nama industry
+                        Forms\Components\TextInput::make('name')
+                            ->label('Name')
+                            ->placeholder("Industry Name")
+                            ->required(),
 
-                    // bidang usaha
-                    Forms\Components\TextInput::make('industry_sector')
-                        ->label('Industry Sector')
-                        ->placeholder('Industry Sector')
-                        ->required(),
+                        // bidang usaha
+                        Forms\Components\TextInput::make('industry_sector')
+                            ->label('Industry Sector')
+                            ->placeholder('Industry Sector')
+                            ->required(),
 
-                    // website
-                    Forms\Components\TextInput::make('website')
-                        ->label('Website')
-                        ->placeholder('Website Industry')
-                        ->url() // harus berupa url
-                        ->required(),
+                        // website industry
+                        Forms\Components\TextInput::make('website')
+                            ->label('Website')
+                            ->placeholder('Website Industry')
+                            ->url()
+                            ->required(),
 
-                    // email
-                    Forms\Components\TextInput::make('email')
-                        ->label('Email')
-                        ->placeholder('Email Industry')
-                        ->email()
-                        ->unique(ignoreRecord: true)
-                        ->validationMessages([
-                            'unique' => 'Email ini sudah terdaftar',
-                        ])
-                        ->required(),
+                        // email industry
+                        Forms\Components\TextInput::make('email')
+                            ->label('Email')
+                            ->placeholder('Email Industry')
+                            ->email()
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'Email ini sudah terdaftar',
+                            ])
+                            ->required(),
 
-                    // kontak
-                    Forms\Components\TextInput::make('contact')
+                        // kontak industry
+                        Forms\Components\TextInput::make('contact')
                             ->label('Contact')
                             ->placeholder('Industry Contact')
                             ->required(),
 
-                    // alamat
-                    Forms\Components\TextInput::make('address')
-                        ->label('Address')
-                        ->placeholder('Industry Address')
-                        ->columnSpan(2)
-                        ->required(),
-                ]),
-        ]);
-}
-
+                        // alamat industry
+                        Forms\Components\TextInput::make('address')
+                            ->label('Address')
+                            ->placeholder('Industry Address')
+                            ->columnSpan(2)
+                            ->required(),
+                    ]),
+            ]);
+    }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //nomor urut dari terkecil ke terbesar
+                // Nomor urut berdasarkan ID
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
-                    ->getStateUsing(fn ($record) => industry::orderBy('id')->pluck('id')
-                    ->search($record->id) + 1),
-                
-                //foto
+                    ->getStateUsing(fn ($record) => Industry::orderBy('id')->pluck('id')->search($record->id) + 1),
+
+                // Logo industry
                 Tables\Columns\ImageColumn::make('picture')
                     ->label('Logo'),
-                
-                //nama
+
+                // Nama industry
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
-                
-                //bidang usaha
+
+                // Bidang usaha
                 Tables\Columns\TextColumn::make('industry_sector')
                     ->label('Industry Sector')
                     ->searchable()
                     ->sortable(),
 
-                //website
+                // Website industry (tampilkan sebagai link)
                 Tables\Columns\TextColumn::make('website')
                     ->label('Website')
-                    ->url(fn ($record) => $record->website, true) //menampilkan sebagai link di tabel
+                    ->url(fn ($record) => $record->website, true)
                     ->openUrlInNewTab()
                     ->searchable()
                     ->sortable(),
 
-                //email
+                // Email industry
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->sortable(),
 
-                //kontak
+                // Kontak industry
                 Tables\Columns\TextColumn::make('contact')
                     ->label('Contact')
                     ->searchable()
                     ->sortable(),
             ])
             ->filters([
-                //
+                // Tambahkan filter jika perlu
             ])
             ->actions([
-                \Filament\Tables\Actions\ActionGroup::make([
+                Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('deleteSelected')
+                        ->label('Delete Selected')
+                        ->action(function (Collection $records) {
+                            foreach ($records as $record) {
+                                static::deleteIndustry($record);
+                            }
+                        })
+                        ->requiresConfirmation()
+                        ->deselectRecordsAfterCompletion()
+                        ->color('danger'),
                 ]),
             ]);
+    }
+
+    protected static function deleteIndustry($record): void
+    {
+        if ($record->pkls()->exists()) {
+            \Filament\Notifications\Notification::make()
+                ->title('Failed to delete')
+                ->body('This industry is still used in PKL. Delete related PKL first!')
+                ->danger()
+                ->send();
+
+            return;
+        }
+
+        $record->delete();
+
+        \Filament\Notifications\Notification::make()
+            ->title('Industry removed')
+            ->body('Industry was successfully removed')
+            ->success()
+            ->send();
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            // Definisikan relation managers jika ada
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListIndustries::route('/'),
+            'index'  => Pages\ListIndustries::route('/'),
             'create' => Pages\CreateIndustry::route('/create'),
-            'view' => Pages\ViewIndustry::route('/{record}'),
-            'edit' => Pages\EditIndustry::route('/{record}/edit'),
+            'view'   => Pages\ViewIndustry::route('/{record}'),
+            'edit'   => Pages\EditIndustry::route('/{record}/edit'),
         ];
     }
 }
