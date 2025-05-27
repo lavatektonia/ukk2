@@ -126,46 +126,43 @@ class IndustryResource extends Resource
                 // Tambahkan filter jika perlu
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
+               \Filament\Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make()
+                    ->action(function ($record) { // ini hapus per item
+                        static::deleteIndustry($record);
+                    })
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('deleteSelected')
-                        ->label('Delete Selected')
-                        ->action(function (Collection $records) {
-                            foreach ($records as $record) {
-                                static::deleteIndustry($record);
-                            }
-                        })
-                        ->requiresConfirmation()
-                        ->deselectRecordsAfterCompletion()
-                        ->color('danger'),
-                ]),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->action(function (\Illuminate\Support\Collection $records){
+                        foreach ($records as $record){
+                            static::deleteIndustry($record);
+                        }
+               })
             ]);
     }
 
-    protected static function deleteIndustry($record): void
-    {
-        if ($record->pkls()->exists()) {
+    protected static function deleteIndustry($record){
+        if($record->pkls()->exists()){
             \Filament\Notifications\Notification::make()
-                ->title('Failed to delete')
-                ->body('This industry is still used in PKL. Delete related PKL first!')
+                ->title('Gagal menghapus industri')
+                ->body('Industri ini masih digunakan untuk PKL')
                 ->danger()
                 ->send();
-
-            return;
+            return false;
         }
 
         $record->delete();
-
         \Filament\Notifications\Notification::make()
-            ->title('Industry removed')
-            ->body('Industry was successfully removed')
+            ->title('Berhasil menghapus industri')
+            ->body('Industri berhasil dihapus')
             ->success()
             ->send();
+
+        return true;
     }
 
     public static function getRelations(): array
