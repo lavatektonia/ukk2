@@ -14,19 +14,16 @@
 
     <!-- {{-- Header: Pencarian --}} -->
     <div class="flex justify-end mb-4">
-        <form class="w-full max-w-xs">
-            <label for="search" class="sr-only">Search</label>
-            <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 19l-4-4m0 0a7 7 0 1 1 1-1 8a7 7 0 0 1-14 0z" />
-                    </svg>
+        <form class="">
+            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" aria-hidden="true">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0 0a7 7 0 1 1 1-1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </div>
+                <input type="search" id="default-search" class="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" wire:model.live="search" placeholder="Search" required />
                 </div>
-                <input type="search" id="search"
-                       class="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                       wire:model.live="search" placeholder="Search..." />
-            </div>
         </form>
     </div>
 
@@ -42,34 +39,36 @@
                     <th class="px-4 py-2 text-center">Address</th>
                     <th class="px-4 py-2 text-center">Contact</th>
                     <th class="px-4 py-2 text-center">Email</th>
-                    <th class="px-4 py-2 text-center"></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($teachers as $index => $teacher)
-                    <tr class="bg-white border-t hover:bg-yellow-50">
-                        <td class="px-4 py-3 text-center">{{ $index + 1 }}</td>
+                    <!-- informasi guru -->
+                    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                        <td class="px-4 py-3 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">{{ $teacher->id }}</td>
                         <td class="px-4 py-3 text-center">{{ $teacher->name }}</td>
                         <td class="px-4 py-3 text-center">{{ $teacher->nip }}</td>
                         <td class="px-4 py-3 text-center">{{ $teacher->gender }}</td>
                         <td class="px-4 py-3 text-center">{{ $teacher->address }}</td>
-                        <td class="px-4 py-3 text-center">{{ $teacher->contact_value }}</td>
-                        <td class="px-4 py-3 text-center">{{ $teacher->email }}</td>
-                        <td class="px-2 py-4 text-center">
-                        <!-- action     -->
-                        <div class="flex justify-center items-center gap-2"> 
-                            <!-- view -->
-                            <a href="{{ route('teacherView', ['id' => $teacher->id]) }}">
-                                <button type="button"
-                                    class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br 
-                                    focus:ring-2 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 
-                                    font-medium rounded-full text-xs px-3 py-1.5 text-center">
-                                    View
-                                </button>
-                            </a>
-                            
-                            </div>
+                        <!-- link contact -->
+                        <td class="px-4 py-3 text-center">
+                            @if ($teacher->contact_type === 'telegram')
+                                <a href="https://t.me/{{ ltrim($teacher->contact_value, '@') }}"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="text-blue-600 hover:underline">
+                                    Telegram ({{ $teacher->contact_value }})
+                                </a>
+                            @elseif ($teacher->contact_type === 'whatsapp')
+                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $teacher->contact_value) }}"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="text-green-600 hover:underline">
+                                    WhatsApp ({{ $teacher->contact_value }})
+                                </a>
+                            @else
+                                {{ ucfirst($teacher->contact_type) }} {{ $teacher->contact_value }}
+                            @endif
                         </td>
+                        <td class="px-4 py-3 text-center">{{ $teacher->email }}</td>
                     </tr>
                 @empty
                     <tr>

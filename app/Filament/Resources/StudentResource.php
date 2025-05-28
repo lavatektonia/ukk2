@@ -103,11 +103,7 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->getStateUsing(fn ($record) => student::orderBy('id')->pluck('id')
-                    ->search($record->id) + 1),
-                
-                //foto
-                Tables\Columns\ImageColumn::make('photo')
-                    ->label('Photo'),        
+                    ->search($record->id) + 1),    
 
                 //nama
                 Tables\Columns\TextColumn::make('name')

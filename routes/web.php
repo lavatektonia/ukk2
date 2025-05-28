@@ -31,5 +31,7 @@ Route::middleware([
 
     // guru
     Route::get('/teacher', App\Livewire\Teacher\Index::class)->name('teacher');
-    Route::get('/viewTeacher/{id}', App\Livewire\Teacher\View::class)->name('teacherView');
+
+    //siswa
+    Route::get('/student', App\Livewire\Student\Index::class)->name('student');
 });

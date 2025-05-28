@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('address');
             $table->string('contact');
             $table->string('email')->unique();
-            $table->string('photo')->nullable()->unique();
             $table->boolean('pkl_report_status')->default(false);
             $table->timestamps();
         });

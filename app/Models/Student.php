@@ -16,7 +16,7 @@ class Student extends Model
         'address', 
         'contact', 
         'email', 
-        'photo', 
+        // 'photo', 
         'pkl_report_status'];
 
     public function pkls()

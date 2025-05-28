@@ -17,6 +17,13 @@
                     </x-nav-link>
                 </div>
 
+                <!-- siswa -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('student') }}" :active="request()->routeIs('student')">
+                        {{ __('Student') }}
+                    </x-nav-link>
+                </div>
+
                 <!-- guru -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('teacher') }}" :active="request()->routeIs('teacher')">
