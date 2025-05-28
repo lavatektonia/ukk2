@@ -23,7 +23,13 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
+    // pkl
     Route::get('/dataPkl', App\Livewire\Pkl\Index::class)->name('pkl');
     Route::get('/addDataPkl', App\Livewire\Pkl\Create::class)->name('pklCreate');
+    Route::get('/viewDataPkl/{id}', App\Livewire\Pkl\View::class)->name('pklView');
+    Route::get('/editDataPkl/{id}', App\Livewire\Pkl\Edit::class)->name('pklEdit');
 
+    // guru
+    Route::get('/teacher', App\Livewire\Teacher\Index::class)->name('teacher');
+    Route::get('/viewTeacher/{id}', App\Livewire\Teacher\View::class)->name('teacherView');
 });
