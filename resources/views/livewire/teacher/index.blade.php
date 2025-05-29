@@ -1,19 +1,7 @@
 <div class="max-w-screen-xl mx-auto px-4 py-6">
-    <!-- {{-- Notifikasi --}} -->
-    @if (session()->has('success'))
-        <div class="mb-4 px-4 py-2 text-green-700 bg-green-100 border border-green-200 rounded-md">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session()->has('error'))
-        <div class="mb-4 px-4 py-2 text-red-700 bg-red-100 border border-red-200 rounded-md">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <!-- {{-- Header: Pencarian --}} -->
-    <div class="flex justify-end mb-4">
+    <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+        <h1 class="text-2xl font-bold text-indigo-700 mb-2">SIJA Teachers</h1>
         <form class="">
             <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                 <div class="relative">

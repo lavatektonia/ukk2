@@ -48,9 +48,11 @@ class UserResource extends Resource
                         //sandi
                         Forms\Components\TextInput::make('password')
                             ->label('Password')
-                            ->placeholder('Password')
+                            ->placeholder("Leave blank if you don't want to change")
                             ->password()
-                            ->required(),
+                            ->dehydrateStateUsing(fn($state) =>($state) ? bcrypt($state) : null)
+                            ->dehydrated(fn($state) => filled($state))
+                            ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord),
                         
                         //roles
                         Forms\Components\Select::make('roles')

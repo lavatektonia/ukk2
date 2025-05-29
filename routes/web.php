@@ -7,9 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/waiting-access', function () {
-    return view('waiting');
-})->name('waitingAccess');
+Route::get('/waiting-access', App\Livewire\WaitingAccess::class)
+    ->middleware('auth')
+    ->name('waitingAccess');
 
 // Route dengan middleware autentikasi
 Route::middleware([
@@ -34,4 +34,8 @@ Route::middleware([
 
     //siswa
     Route::get('/student', App\Livewire\Student\Index::class)->name('student');
+
+    //industri
+    Route::get('/industry', App\Livewire\Industry\Index::class)->name('industry');
+    Route::get('/industryCreate', App\Livewire\Industry\Create::class)->name('industryCreate');
 });
