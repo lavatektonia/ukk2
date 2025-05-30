@@ -137,6 +137,7 @@ class IndustryResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make()
+                    ->label('Delete selected')
                     ->action(function (\Illuminate\Support\Collection $records){
                         foreach ($records as $record){
                             static::deleteIndustry($record);

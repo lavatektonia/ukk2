@@ -2,14 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Livewire\WaitingAccess;
+
 // Route halaman utama
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/waiting-access', App\Livewire\WaitingAccess::class)
-    ->middleware('auth')
-    ->name('waitingAccess');
+Route::get('/waiting-access', function () {
+    return view('livewire.waiting-access');
+})->middleware('auth')->name('waitingAccess');
 
 // Route dengan middleware autentikasi
 Route::middleware([

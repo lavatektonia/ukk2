@@ -56,6 +56,11 @@ class Create extends Component
         $this->picture = null;
     }
 
+    public function resetForm()
+    {
+        $this->reset(['picture', 'name', 'industry_sector', 'website', 'email', 'contact', 'address']);
+    }
+
     public function render()
     {
         return view('livewire.industry.create');

@@ -17,6 +17,9 @@ class StudentResource extends Resource
 {
     protected static ?string $model = Student::class;
 
+    protected static ?string $navigationLabel = 'SIJA Students';
+    protected static ?string $pluralLabel = 'List Student';
+
     protected static ?string $navigationIcon = 'heroicon-o-identification';
 
     public static function form(Form $form): Form
@@ -25,13 +28,6 @@ class StudentResource extends Resource
             ->schema([
                 Forms\Components\Grid::make(2)
                     ->schema([
-                        //foto
-                        Forms\Components\FileUpload::make('photo')
-                            ->label('Student Photo')
-                            ->image()
-                            ->directory('student')
-                            ->columnSpan(2),
-
                         //nama
                         Forms\Components\TextInput::make('name')
                             ->label('Name')
@@ -111,6 +107,12 @@ class StudentResource extends Resource
                     ->searchable()
                     ->sortable(),
                 
+                //nis
+                Tables\Columns\TextColumn::make('nis')
+                ->label('NIS')
+                ->searchable()
+                ->sortable(),
+
                 //gender
                 Tables\Columns\TextColumn::make('gender')
                     ->label('Gender')
@@ -157,20 +159,60 @@ class StudentResource extends Resource
                         'SIJA B' => 'SIJA B',
                     ]),
                 Tables\Filters\TernaryFilter::make('pkl_report_status')
-                    ->trueLabel('Aktif')
-                    ->falseLabel('Nonaktif'),
+                    ->trueLabel('Active')
+                    ->falseLabel('Non-active'),
             ])
             ->actions([
                 \Filament\Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make()
+                        ->before(function ($record, $action) {
+                            if ($record->pkl_report_status) {
+                                \Filament\Notifications\Notification::make()
+                                    ->title('Failed to delete')
+                                    ->body("Student {$record->name} are still active in PKL.")
+                                    ->danger()
+                                    ->send();
+
+                                $action->cancel(); // Hentikan proses hapus tanpa error
+                            }
+                        }),
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                // Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Delete Selected')
+                        ->before(function ($records, $action) {
+                            foreach ($records as $record) {
+                                if (isset($record->student) && $record->student->pkl_report_status) {
+                                    \Filament\Notifications\Notification::make()
+                                        ->title('Failed to delete')
+                                        ->body("Student {$record->name} are still active in PKL.")
+                                        ->danger()
+                                        ->send();
+
+                                    $action->cancel(); // Batalkan aksi hapus tanpa melempar exception
+                                    return;
+                                }
+
+                                try {
+                                    $record->delete();
+                                } catch (\Illuminate\Database\QueryException $e) {
+                                    \Filament\Notifications\Notification::make()
+                                        ->title('Failed to delete')
+                                        ->body('Student data cannot be deleted because still active in PKL.')
+                                        ->danger()
+                                        ->send();
+
+                                    $action->cancel(); // Batalkan aksi hapus
+                                    return;
+                                }
+                            }
+                        }),
+                    ]);
+            // ]);
     }
 
     public static function getRelations(): array

@@ -71,6 +71,16 @@
                             </td>
                         </tr>
                     @endforelse
+                    @forelse ($pkls as $pkl)
+                        <tr class="border-b last:border-b-0 hover:bg-gray-50 transition">
+                            <td class="p-3">{{ $pkl->siswa->nama ?? '-' }}</td>
+                            <td class="p-3">{{ $pkl->industri->nama ?? '-' }}</td>
+                            <td class="p-3">{{ $pkl->guru->nama ?? '-' }}</td>
+                            <td class="p-3">{{ \Carbon\Carbon::parse($pkl->tanggal_mulai)->format('d M Y') }}</td>
+                            <td class="p-3">{{ \Carbon\Carbon::parse($pkl->tanggal_selesai)->format('d M Y') }}</td>
+                            <td class="p-3">{{ $pkl->durasi }} Hari</td>
+                        </tr>
+                    @empty
                 </tbody>
             </table>
         </div>

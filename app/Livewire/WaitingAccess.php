@@ -9,20 +9,20 @@ class WaitingAccess extends Component
 {
     public function mount()
     {
-        if (Auth::user()->roles->isNotEmpty()) {
-            return redirect()->route('dashboard');
+        if (Auth::user()?->roles->isNotEmpty()) {
+            return redirect()->to(route('dashboard'));
         }
     }
 
     public function checkRoles()
     {
-        if (Auth::user()->roles->isNotEmpty()) {
-            return redirectRoute('dashboard');
+        if (Auth::user()?->roles->isNotEmpty()) {
+            return redirect()->to(route('dashboard'));
         }
     }
 
     public function render()
     {
-        return view('livewire.waiting-access');
+        return; 
     }
 }

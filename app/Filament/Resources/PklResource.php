@@ -17,6 +17,8 @@ class PklResource extends Resource
 {
     protected static ?string $model = Pkl::class;
 
+    protected static ?string $navigationLabel = 'PKL Data';
+
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     public static function form(Form $form): Form
@@ -118,9 +120,8 @@ class PklResource extends Resource
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->label('Delete selected'),
             ]);
     }
 

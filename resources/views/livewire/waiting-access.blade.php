@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Menunggu Akses</title>
+    <title>Waiting Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
@@ -50,34 +50,23 @@
         }
     </style>
 </head>
-<body class="animated-gradient flex flex-col justify-center items-center h-screen text-white">
+<body class="animated-gradient flex justify-center items-center h-screen text-white">
 
-    <!-- Loader -->
-    <div class="text-center fade-in space-y-6 mb-10">
-        <div class="flex justify-center items-center gap-6">
-            <div class="w-6 h-6 bg-white rounded-full bounce-loader shadow-md"></div>
-            <div class="text-5xl font-extrabold drop-shadow-md" id="percent">0%</div>
-        </div>
-    </div>
+    <!-- Wrapper div -->
+    <div class="flex flex-col justify-center items-center text-white space-y-10 px-4 w-full">
 
-    <!-- Floating Text -->
-    <div class="floating-text text-lg font-medium text-white drop-shadow text-center px-6 leading-relaxed opacity-90 mb-8">
-        <p>Please wait a moment,</p>
-        <p>your access is being prepared by the admin...</p>
-    </div>
-
-    <!-- Polling Message -->
-    <div class="flex items-center justify-between w-full max-w-3xl px-6">
-        <!-- Polling Section -->
-        <div wire:poll.5000ms="checkRoles" class="text-white">
-            <h2 class="text-2xl md:text-3xl font-bold mb-2">Menunggu Persetujuan</h2>
-            <p class="text-white/90">Akun Anda sedang dalam proses verifikasi</p>
-            <p class="text-white/70">Halaman ini akan otomatis redirect jika sudah diberikan role.</p>
+        <!-- Loader -->
+        <div class="text-center fade-in space-y-6">
+            <div class="flex justify-center items-center gap-6">
+                <div class="w-6 h-6 bg-white rounded-full bounce-loader shadow-md"></div>
+                <div class="text-5xl font-extrabold drop-shadow-md" id="percent">0%</div>
+            </div>
         </div>
 
-        <!-- Clock Icon -->
-        <div class="hidden md:block">
-            <i class="fas fa-clock text-white/30 text-7xl"></i>
+        <!-- Floating Text -->
+        <div class="floating-text text-lg font-medium text-white drop-shadow text-center leading-relaxed opacity-90">
+            <p>Please wait a moment,</p>
+            <p>your access is being prepared by the admin...</p>
         </div>
     </div>
 
