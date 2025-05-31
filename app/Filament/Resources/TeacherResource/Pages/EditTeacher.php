@@ -16,15 +16,15 @@ class EditTeacher extends EditRecord
         return [
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
-                ->before(function ($record, Actions\DeleteAction $action) {
+                ->before(function ($record, \Filament\Actions\DeleteAction $action) {
                     if ($record->pkl()->exists()) {
-                        Notification::make()
-                            ->title('Failed to delete!')
-                            ->body('This teacher is still listed in PKL. Please delete the relevant PKL data first.')
+                        \Filament\Notifications\Notification::make()
+                            ->title('Gagal menghapus!')
+                            ->body('Guru ini masih digunakan dalam PKL. Hapus PKL terkait terlebih dahulu.')
                             ->danger()
                             ->send();
 
-                        $action->halt(); // Hentikan eksekusi tanpa error
+                        $action->halt(); // hentikan eksekusi tanpa error
                     }
                 }),
         ];
