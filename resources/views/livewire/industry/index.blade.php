@@ -90,10 +90,9 @@
                 @endforelse
             </tbody>
         </table>
-    </div>
-
-    <!-- Pagination -->
-    <div class="mt-6">
-        {{ $industries->links() }}
+        <!-- Pagination -->
+        <div class="mt-6">
+            {{ $industries->links() }}
+        </div>
     </div>
 </div>

@@ -12,7 +12,9 @@ class Index extends Component
 
     public $search;
 
+    //spy saat search ga reload halaman, stay di halaman itu
     protected $updatesQueryString = ['search'];
+    protected $paginationTheme = 'tailwind';
 
     public function updatingSearch()
     {
@@ -29,10 +31,16 @@ class Index extends Component
                     ->orWhere('contact_value', 'like', '%' . $this->search . '%')
                     ->orWhere('email', 'like', '%' . $this->search . '%');
             })
-            ->paginate(10); // gunakan paginate
+            ->paginate(10); 
+
+            $genders = [
+            'M' => 'Male',
+            'F' => 'Female',
+        ];
 
         return view('livewire.teacher.index', [
             'teachers' => $teachers,
+            'genders' => $genders,
         ]);
     }
 }

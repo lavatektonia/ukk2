@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('nis')->unique();
-            $table->enum('gender', ['Male','Female']);
-            $table->enum('class_group', ['SIJA A','SIJA B']);
+            $table->enum('gender', ['M','F']);
+            $table->enum('class_group', ['SijaA','SijaB']);
             $table->string('address');
             $table->string('contact');
             $table->string('email')->unique();

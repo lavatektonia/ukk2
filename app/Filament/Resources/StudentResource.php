@@ -48,8 +48,8 @@ class StudentResource extends Resource
                         Forms\Components\Select::make('gender')
                             ->label('Gender')
                             ->options([
-                                'Male' => 'Male',
-                                'Female' => 'Female',
+                                'M' => 'Male',
+                                'F' => 'Female',
                             ])
                             ->native(False)
                             ->required(),
@@ -58,8 +58,8 @@ class StudentResource extends Resource
                         Forms\Components\Select::make('class_group')
                             ->label('Class Group')
                             ->options([
-                                'SIJA A' => 'SIJA A',
-                                'SIJA B' => 'SIJA B',
+                                'SijaA' => 'SIJA A',
+                                'SijaB' => 'SIJA B',
                             ])
                             ->native(False)
                             ->required(),
@@ -117,12 +117,14 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('gender')
                     ->label('Gender')
                     ->searchable()
+                    ->formatStateUsing(fn (string$state): string => $state === 'M' ? 'Male' : 'Female')
                     ->sortable(),
 
                 //rombel
                 Tables\Columns\TextColumn::make('class_group')
                     ->label('Class Group')
                     ->searchable()
+                    ->formatStateUsing(fn (string$state): string => $state === 'SijaA' ? 'SIJA A' : 'SIJA B')
                     ->sortable(),
                 
                 //email

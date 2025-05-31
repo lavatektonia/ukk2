@@ -5,10 +5,12 @@ namespace App\Livewire\Industry;
 use App\Models\Industry;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Create extends Component
 {
     use WithFileUploads;
+    use WithPagination;
 
     public $name;
     public $industry_sector;
@@ -16,7 +18,9 @@ class Create extends Component
     public $email;
     public $website;
     public $address;
-    public $picture; // <- Gunakan satu nama saja, konsisten dengan Blade
+    public $picture; 
+    protected $updatesQueryString = ['search'];
+    protected $paginationTheme = 'tailwind'; 
 
     protected $rules = [
         'name' => 'required|string|max:255',

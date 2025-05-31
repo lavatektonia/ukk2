@@ -46,8 +46,8 @@ class TeacherResource extends Resource
                     Forms\Components\Select::make('gender')
                         ->label('Gender')
                         ->options([
-                            'Male' => 'Male',
-                            'Female' => 'Female',
+                            'M' => 'Male',
+                            'F' => 'Female',
                         ])
                         ->native(False)
                         ->required(),
@@ -106,6 +106,7 @@ class TeacherResource extends Resource
                 Tables\Columns\TextColumn::make('gender')
                     ->label('Gender')
                     ->searchable()
+                    ->formatStateUsing(fn (string$state): string => $state === 'M' ? 'Male' : 'Female')
                     ->sortable(),
                 
                 //email

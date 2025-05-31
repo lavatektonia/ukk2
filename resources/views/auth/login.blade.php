@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login - {{ config('app.name') }}</title>
+    <title>Login - PKL App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -11,11 +11,9 @@
     <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <!-- Logo -->
         <div class="flex justify-center mb-6">
-            <svg class="w-12 h-12 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a10 10 0 0 1 7.07 17.07L12 12V2z" class="text-white" />
-            </svg>
+            <img src="{{ asset('images/sija.png') }}" alt="Logo SIJA" class="w-24 h-auto">
         </div>
+
 
         <!-- Title -->
         <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">

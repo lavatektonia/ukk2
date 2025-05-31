@@ -64,6 +64,7 @@ class PklResource extends Resource
                             ->label('End Date')
                             ->maxDate(now ()->addYears(5))
                             ->after('start')
+                            ->minDate(fn ($get) => $get('start') ? \Carbon\Carbon::parse($get('start')) ->addMonths(3)->toDateString() : null)
                             ->required(),
                     ])
             ]);

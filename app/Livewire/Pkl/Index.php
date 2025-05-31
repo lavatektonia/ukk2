@@ -10,7 +10,7 @@ use App\Models\Industry;
 
 class Index extends Component
 {
-    public $search = '';
+    public $search;
 
     public function render()
     {

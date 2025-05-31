@@ -17,7 +17,8 @@ class StudentSeeder extends Seeder
             [
                 'name' => "Akbar Ad'ha Kusumawardhana", 
                 'nis' => '20394',
-                'gender' => 'Male',
+                'gender' => 'M',
+                'class_group' => 'SijaA',
                 'address' => 'Sleman',
                 'contact' => '089514958932',
                 'email' => 'akbar@gmail.com',
@@ -26,7 +27,8 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Mutiara Sekar Kinasih', 
                 'nis' => '20431',
-                'gender' => 'Female',
+                'gender' => 'F',
+                'class_group' => 'SijaB',
                 'address' => 'Bantul',
                 'contact' => '085198553807',
                 'email' => 'mtiaraskinasih@gmail.com',
@@ -35,7 +37,8 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Kaysa Aqila Amta', 
                 'nis' => '20419',
-                'gender' => 'Female',
+                'gender' => 'F',
+                'class_group' => 'SijaA',
                 'address' => 'Turi',
                 'contact' => '085741571381',
                 'email' => 'kaysaql@gmail.com',
@@ -44,7 +47,8 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Angelina Thithis Sekar Langit', 
                 'nis' => '20396',
-                'gender' => 'Female',
+                'gender' => 'F',
+                'class_group' => 'SijaA',
                 'address' => 'Prambanan',
                 'contact' => '081272353535',
                 'email' => 'arrowofdarkness2@gmail.com',
@@ -53,7 +57,8 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Marcellinus Christo Pradipta', 
                 'nis' => '20422',
-                'gender' => 'Male',
+                'gender' => 'M',
+                'class_group' => 'SijaA',
                 'address' => 'Sleman',
                 'contact' => '089688361696',
                 'email' => 'marchllinuschristo11@gmail.com',
@@ -62,7 +67,8 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Naufelirna Subkhi Ramadhani', 
                 'nis' => '20454',
-                'gender' => 'Female',
+                'gender' => 'F',
+                'class_group' => 'SijaB',
                 'address' => 'Klaten',
                 'contact' => '089671421234',
                 'email' => 'adzanaufel705@gmail.com',
@@ -71,7 +77,8 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Rosyidah Muuthmainnah', 
                 'nis' => '20448',
-                'gender' => 'Female',
+                'gender' => 'F',
+                'class_group' => 'SijaB',
                 'address' => 'Sleman',
                 'contact' => '087883538770',
                 'email' => 'rosyi.html@gmail.com',
@@ -80,7 +87,8 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Gabriel Possenti Genta Bahana Nagari', 
                 'nis' => '20410',
-                'gender' => 'Male',
+                'gender' => 'M',
+                'class_group' => 'SijaA',
                 'address' => 'Sleman',
                 'contact' => '089634085990',
                 'email' => 'gentapossenti@gmail.com',
@@ -89,8 +97,9 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Meidinna Tiara Pramudhita', 
                 'nis' => '20423',
-                'gender' => 'Female',
-                'address' => 'Prujakan',
+                'gender' => 'F',
+                'class_group' => 'SijaA',
+                'address' => 'Prujakan, Ngaglik',
                 'contact' => '083121895462',
                 'email' => 'meidinna@gmail.com',
                 'pkl_report_status'=> false,
@@ -98,8 +107,9 @@ class StudentSeeder extends Seeder
             [
                 'name' => 'Farcha Amalia Nugrahaini', 
                 'nis' => '20408',
-                'gender' => 'Female',
-                'address' => 'Sleman',
+                'gender' => 'F',
+                'class_group' => 'SijaA',
+                'address' => 'Tempel, Sleman',
                 'contact' => '0895380761274',
                 'email' => 'farchaamalia@gmail.com',
                 'pkl_report_status'=> false,

@@ -36,7 +36,10 @@
                         <td class="px-4 py-3 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">{{ $teacher->id }}</td>
                         <td class="px-4 py-3 text-center">{{ $teacher->name }}</td>
                         <td class="px-4 py-3 text-center">{{ $teacher->nip }}</td>
-                        <td class="px-4 py-3 text-center">{{ $teacher->gender }}</td>
+                        <!-- gender -->
+                        <td class="px-4 py-3 text-center">
+                            {{ $genders[$teacher->gender] ?? 'Unknown' }}
+                        </td>
                         <td class="px-4 py-3 text-center">{{ $teacher->address }}</td>
                         <!-- link contact -->
                         <td class="px-4 py-3 text-center">
@@ -65,5 +68,8 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="mt-4">
+            {{ $teachers->links() }}
+        </div>
     </div>
 </div>

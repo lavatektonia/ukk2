@@ -34,11 +34,19 @@
                 <tbody>
                     @forelse ($students as $student)
                         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                            <td class="px-4 py-3 text-center font-medium text-gray-900 dark:text-white">{{ $student->id }}</td>
+                            <td class="px-4 py-3 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
+                                {{ ($students->currentPage() - 1) * $students->perPage() + $loop->iteration }}
+                            </td>
                             <td class="px-4 py-3 text-center">{{ $student->name }}</td>
                             <td class="px-4 py-3 text-center">{{ $student->nis }}</td>
-                            <td class="px-4 py-3 text-center">{{ $student->gender }}</td>
-                            <td class="px-4 py-3 text-center">{{ $student->class_group }}</td>
+                            <!-- gender -->
+                            <td class="px-4 py-3 text-center">
+                                {{ $genders[$student->gender] ?? 'Unknown' }}
+                            </td>
+                            <!-- rombel -->
+                            <td class="px-4 py-3 text-center">
+                                {{ $class_groups[$student->class_group] ?? 'Unknown' }}
+                            </td>
                             <td class="px-4 py-3 text-center">{{ $student->address }}</td>
                             <!-- link kontak -->
                             <td class="px-4 py-3 text-center">
@@ -73,6 +81,9 @@
                     @endforelse
                 </tbody>
             </table>
+            <div class="mt-4">
+                {{ $students->links() }}
+            </div>
         </div>
     </div>
 </div>

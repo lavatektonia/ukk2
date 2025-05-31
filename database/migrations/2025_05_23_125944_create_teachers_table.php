@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('nip')->unique();
-            $table->enum('gender',['Male','Female']);
+            $table->enum('gender',['M','F']);
             $table->string('address');
             $table->enum('contact_type', ['whatsapp', 'telegram']);
             $table->string('contact_value');
