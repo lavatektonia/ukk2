@@ -3,7 +3,7 @@
         <h2 class="text-xl font-bold mb-4 text-gray-800">Add PKL Data</h2>
         <hr class="mb-4 border-t-1.5 border-gray-300"></hr>
 
-        <form class="space-y-4 text-m">
+        <form wire:submit.prevent="create" class="space-y-4 text-m">
             <!-- NAMA SISWA -->
             <div>
                 <label for="student_id" class="block mb-2 font-medium text-gray-700">Student Name</label>

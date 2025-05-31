@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Auth;
 class Create extends Component
 {
     public $student_id, $teacher_id, $industry_id, $start, $end;
-    public $name_student;
 
+    public $name_student;
+    
     public function mount()
     {
         $userEmail = Auth::user()->email;
