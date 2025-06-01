@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login - PKL App</title>
+    <title>Login - PKL</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -11,13 +11,13 @@
     <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <!-- Logo -->
         <div class="flex justify-center mb-6">
-            <img src="{{ asset('images/sija.png') }}" alt="Logo SIJA" class="w-24 h-auto">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo SIJA" class="w-24 h-auto">
         </div>
 
 
         <!-- Title -->
         <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">
-            Sign in to your account
+            Sign in to your account!
         </h2>
 
         <!-- Status Message -->

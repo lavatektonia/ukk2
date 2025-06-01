@@ -20,23 +20,32 @@ class CreateNewUser implements CreatesNewUsers
      * @param  array<string, string>  $input
      */
     public function create(array $input): User
-    {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => $this->passwordRules(),
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-        ])->validate();
+{
+    Validator::make($input, [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+        'password' => $this->passwordRules(),
+        'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+    ])->validate();
 
-        if (!Student::where('email', $input['email'])->exists()) {
-            throw ValidationException::withMessages([
-                'email' => 'This email is not registered as a student.',
-            ]);
-        }
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
+    // Cek apakah email ada di tabel students
+    if (!Student::where('email', $input['email'])->exists()) {
+        throw ValidationException::withMessages([
+            'email' => 'This email is not registered as a student.',
         ]);
     }
+
+    // Buat user baru
+    $user = User::create([
+        'name' => $input['name'],
+        'email' => $input['email'],
+        'password' => Hash::make($input['password']),
+    ]);
+
+    // Beri role siswa
+    $user->assignRole('student');
+
+    return $user;
+}
+
 }

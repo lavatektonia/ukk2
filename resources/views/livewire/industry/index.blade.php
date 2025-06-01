@@ -1,4 +1,4 @@
-<div class="max-w-screen-xl mx-auto px-4 py-6">
+<div class="bg-gradient-to-br from-indigo-100 via-white to-blue-100 min-h-screen py-10 max-w-screen-xl mx-auto px-4 py-6">
     <!-- Header -->
     <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
         <h1 class="text-2xl font-bold text-indigo-700">Industry</h1>

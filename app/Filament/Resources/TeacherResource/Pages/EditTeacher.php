@@ -17,7 +17,7 @@ class EditTeacher extends EditRecord
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->before(function ($record, \Filament\Actions\DeleteAction $action) {
-                    if ($record->pkl()->exists()) {
+                    if ($record->pkls()->exists()) {
                         \Filament\Notifications\Notification::make()
                             ->title('Gagal menghapus!')
                             ->body('Guru ini masih digunakan dalam PKL. Hapus PKL terkait terlebih dahulu.')

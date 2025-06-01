@@ -121,6 +121,12 @@ class IndustryResource extends Resource
                     ->label('Contact')
                     ->searchable()
                     ->sortable(),
+
+                //address
+                Tables\Columns\TextColumn::make('address')
+                    ->label('Address')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 // Tambahkan filter jika perlu
