@@ -15,9 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        //supaya seeder otomatis masuk tanpa php artisan migrate --seed
+        $this->call([
+            RoleSeeder::class,
+            TeacherSeeder::class,
+            IndustrySeeder::class,
+            StudentSeeder::class,
         ]);
     }
 }
