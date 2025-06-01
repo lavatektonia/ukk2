@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PKL Student Portal</title>
+    <title>PKL App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     @vite('resources/css/app.css') {{-- Tailwind CSS --}}
@@ -32,12 +32,12 @@
             <h2 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Student Access</h2>
 
             <div class="flex flex-col space-y-4">
-                <a href="{{ route('login') }}"
+                <a href="{{ route('login') }}" 
                    class="w-full text-center bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg text-lg transition duration-200 ease-in-out">
                     Login
                 </a>
 
-                <a href="{{ route('register') }}"
+                <a href="{{ route('register') }}" 
                    class="w-full text-center border border-blue-500 text-blue-600 hover:bg-blue-50 py-3 rounded-lg text-lg transition duration-200 ease-in-out">
                     Register
                 </a>

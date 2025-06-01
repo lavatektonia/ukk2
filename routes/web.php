@@ -4,11 +4,17 @@ use Illuminate\Support\Facades\Route;
 
 use App\Livewire\WaitingAccess;
 
-// Route halaman utama
+// Halaman Landing
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('landing');
+})->name('landing');
 
+// // Halaman Login
+Route::get('/student-access', function () {
+    return view('auth'); 
+})->name('studentAccess');
+
+//waiting-access
 Route::get('/waiting-access', function () {
     return view('livewire.waiting-access');
 })->middleware('auth')->name('waitingAccess');
