@@ -14,7 +14,18 @@ class EditStudent extends EditRecord
     {
         return [
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->before(function ($record, \Filament\Actions\DeleteAction $action) {
+                    if ($record->pkls()->exists()) {
+                        \Filament\Notifications\Notification::make()
+                            ->title('Failed to delete.')
+                            ->body('Student is still active in PKL.')
+                            ->danger()
+                            ->send();
+
+                        $action->halt(); // hentikan eksekusi tanpa error
+                    }
+                }),
         ];
     }
 

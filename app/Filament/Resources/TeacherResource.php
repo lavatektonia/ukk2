@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TeacherResource\Pages;
-use App\Filament\Resources\TeacherResource\RelationManagers;
 use App\Models\Teacher;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +10,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\TeacherResource\Pages;
+use App\Filament\Resources\TeacherResource\RelationManagers;
 
 class TeacherResource extends Resource
 {
@@ -22,104 +22,94 @@ class TeacherResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Grid::make(2)
-                ->schema([
-                    //nama
-                    Forms\Components\TextInput::make('name')
-                        ->label('Name')
-                        ->placeholder("Teacher's Name")
-                        ->required(),
-                    
-                    //nip
-                    Forms\Components\TextInput::make('nip')
-                        ->label('NIP')
-                        ->placeholder("Teacher's NIP")
-                        ->unique(ignoreRecord: true)
-                        ->validationMessages([
-                            'unique' => 'NIP is already registered',
-                        ])
-                        ->required(),
-                    
-                    //gender
-                    Forms\Components\Select::make('gender')
-                        ->label('Gender')
-                        ->options([
-                            'M' => 'Male',
-                            'F' => 'Female',
-                        ])
-                        ->native(False)
-                        ->required(),
-                    
-                    //email
-                    Forms\Components\TextInput::make('email')
-                        ->label('Email')
-                        ->placeholder("Teacher's Email")
-                        ->email()
-                        ->unique(ignoreRecord: true)
-                        ->validationMessages([
-                            'unique' => 'Email is already registered',
-                        ])
-                        ->required(),
+        return $form->schema([
+            Forms\Components\Grid::make(2)->schema([
+                Forms\Components\TextInput::make('name')
+                    ->label('Name')
+                    ->placeholder("Teacher's Name")
+                    ->required(),
 
-                    //kontak
-                    Forms\Components\Select::make('contact_type')
-                        ->label('Contact Type')
-                        ->options([
-                            'whatsapp' => 'WhatsApp',
-                            'telegram' => 'Telegram',
-                        ])
-                        ->required(),
-                    Forms\Components\TextInput::make('contact_value')
-                        ->label('Contact Value')
-                        ->placeholder('Masukkan nomor WA atau ID Telegram')
-                        ->required(),
-                                        
-                    //alamat
-                    Forms\Components\TextInput::make('address')
-                        ->label('Address')
-                        ->placeholder("Teacher's address")
-                        ->columnSpan(2)
-                        ->required(),
-                ]),
-            ]);
+                Forms\Components\TextInput::make('nip')
+                    ->label('NIP')
+                    ->placeholder("Teacher's NIP")
+                    ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'NIP is already registered',
+                    ])
+                    ->required(),
+
+                Forms\Components\Select::make('gender')
+                    ->label('Gender')
+                    ->options([
+                        'M' => 'Male',
+                        'F' => 'Female',
+                    ])
+                    ->native(false)
+                    ->required(),
+
+                Forms\Components\TextInput::make('email')
+                    ->label('Email')
+                    ->placeholder("Teacher's Email")
+                    ->email()
+                    ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'Email is already registered',
+                    ])
+                    ->required(),
+
+                Forms\Components\Select::make('contact_type')
+                    ->label('Contact Type')
+                    ->options([
+                        'whatsapp' => 'WhatsApp',
+                        'telegram' => 'Telegram',
+                    ])
+                    ->required(),
+
+                Forms\Components\TextInput::make('contact_value')
+                    ->label('Contact Value')
+                    ->placeholder('Masukkan nomor WA atau ID Telegram')
+                    ->required(),
+
+                Forms\Components\TextInput::make('address')
+                    ->label('Address')
+                    ->placeholder("Teacher's address")
+                    ->columnSpan(2)
+                    ->required(),
+            ]),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //nomor urut dari terkecil ke terbesar
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
-                    ->getStateUsing(fn ($record) => teacher::orderBy('id')->pluck('id')
-                    ->search($record->id) + 1),
+                    ->getStateUsing(fn ($record) =>
+                        Teacher::orderBy('id')->pluck('id')->search($record->id) + 1
+                    ),
 
-                //nama
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
-                
-                //gender
+
                 Tables\Columns\TextColumn::make('gender')
                     ->label('Gender')
                     ->searchable()
-                    ->formatStateUsing(fn (string$state): string => $state === 'M' ? 'Male' : 'Female')
+                    ->formatStateUsing(fn (string $state): string => $state === 'M' ? 'Male' : 'Female')
                     ->sortable(),
-                
-                //email
+
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->sortable(),
-                
-                //kontak
+
                 Tables\Columns\TextColumn::make('contact_type')
                     ->label('Contact Type')
-                    ->formatStateUsing(fn ($state) => ucfirst($state)) //biar awal kata kapital
+                    ->formatStateUsing(fn ($state) => ucfirst($state))
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('contact_value')
                     ->label('Contact Value')
                     ->url(fn ($record) => match ($record->contact_type) {
@@ -132,34 +122,61 @@ class TeacherResource extends Resource
                     ->wrap(),
             ])
             ->filters([
-                //
+                // Tambahkan filter jika diperlukan
             ])
             ->actions([
-                \Filament\Tables\Actions\ActionGroup::make([
+                Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make()
-                    ->label('Delete selected'),
+                    ->label('Delete Selected')
+                    ->before(function ($records, $action) {
+                        foreach ($records as $record) {
+                            if ($record->teacher && $record->teacher->pkl_report_status) {
+                                \Filament\Notifications\Notification::make()
+                                    ->title('Failed to delete')
+                                    ->body("The supervising teacher of student {$record->name} is still active in PKL.")
+                                    ->danger()
+                                    ->send();
+
+                                $action->cancel();
+                                return;
+                            }
+
+                            try {
+                                $record->delete();
+                            } catch (\Illuminate\Database\QueryException $e) {
+                                \Filament\Notifications\Notification::make()
+                                    ->title('Failed to delete')
+                                    ->body("Teacher data {$record->name} cannot be deleted because it is still active in PKL.")
+                                    ->danger()
+                                    ->send();
+
+                                $action->cancel();
+                                return;
+                            }
+                        }
+                    }),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            // Tambahkan relation managers jika ada
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTeachers::route('/'),
+            'index'  => Pages\ListTeachers::route('/'),
             'create' => Pages\CreateTeacher::route('/create'),
-            'view' => Pages\ViewTeacher::route('/{record}'),
-            'edit' => Pages\EditTeacher::route('/{record}/edit'),
+            'view'   => Pages\ViewTeacher::route('/{record}'),
+            'edit'   => Pages\EditTeacher::route('/{record}/edit'),
         ];
     }
 }

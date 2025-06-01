@@ -19,8 +19,8 @@ class EditTeacher extends EditRecord
                 ->before(function ($record, \Filament\Actions\DeleteAction $action) {
                     if ($record->pkls()->exists()) {
                         \Filament\Notifications\Notification::make()
-                            ->title('Gagal menghapus!')
-                            ->body('Guru ini masih digunakan dalam PKL. Hapus PKL terkait terlebih dahulu.')
+                            ->title('Failed to delete')
+                            ->body('This teacher is still linked to an active PKL. Please delete the related PKL record first.')
                             ->danger()
                             ->send();
 

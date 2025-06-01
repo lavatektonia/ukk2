@@ -14,7 +14,18 @@ class EditIndustry extends EditRecord
     {
         return [
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->before(function ($record, \Filament\Actions\DeleteAction $action) {
+                    if ($record->pkls()->exists()) {
+                        \Filament\Notifications\Notification::make()
+                            ->title('Failed to delete')
+                            ->body('Industry is still used in PKL data.')
+                            ->danger()
+                            ->send();
+
+                        $action->halt(); // hentikan eksekusi tanpa error
+                    }
+                }),
         ];
     }
 

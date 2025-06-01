@@ -142,14 +142,38 @@ class IndustryResource extends Resource
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make()
-                    ->label('Delete selected')
-                    ->action(function (\Illuminate\Support\Collection $records){
-                        foreach ($records as $record){
-                            static::deleteIndustry($record);
-                        }
-               })
-            ]);
+    Tables\Actions\DeleteBulkAction::make()
+        ->label('Delete Selected')
+        ->before(function ($records, $action) {
+            foreach ($records as $record) {
+                // Misalnya, industri masih aktif digunakan di laporan PKL
+                if ($record->pkls()->exists()) {
+                    \Filament\Notifications\Notification::make()
+                        ->title('Failed to delete')
+                        ->body("Industry {$record->name} is still use in PKL data.")
+                        ->danger()
+                        ->send();
+
+                    $action->cancel();
+                    return;
+                }
+
+                try {
+                    $record->delete();
+                } catch (\Illuminate\Database\QueryException $e) {
+                    \Filament\Notifications\Notification::make()
+                        ->title('Failed to delete')
+                        ->body("Industry {$record->name} could not be deleted due to database constraints.")
+                        ->danger()
+                        ->send();
+
+                    $action->cancel();
+                    return;
+                }
+            }
+        }),
+    ]);
+
     }
 
     protected static function deleteIndustry($record){
