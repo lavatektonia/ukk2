@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
         //supaya seeder otomatis masuk tanpa php artisan migrate --seed
         $this->call([
-            RoleSeeder::class,
+            // RoleSeeder::class,
             TeacherSeeder::class,
             IndustrySeeder::class,
             StudentSeeder::class,
